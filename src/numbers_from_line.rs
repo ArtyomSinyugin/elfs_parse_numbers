@@ -1,47 +1,24 @@
-pub fn numbers_from_line(line: &str) -> Vec<(u32, usize)> {
-    let mut output: Vec<(u32, usize)> = Vec::new();
-
+pub fn numbers_from_line(line: &str) -> Vec<u32> {
+    let mut vec: Vec<u32> = Vec::new();
+    let mut temp_word = String::new();
     let ref_numbers: Vec<&str> = vec![
-        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "1", "2", "3", "4",
-        "5", "6", "7", "8", "9", "0",
+        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
     ];
 
-    for ref_number in ref_numbers {
-        let order_number = line.find(ref_number);
-        let r_order_number = line.rfind(ref_number);
-        let output_u32 = str_to_digit(ref_number);
-
-        if let Some(order_number) = order_number {
-            output.push((output_u32, order_number));
-        }
-
-        if r_order_number != order_number {
-            if let Some(r_order_number) = r_order_number {
-                output.push((output_u32, r_order_number));
+    let mut iter_line = line.chars();
+    while let Some(char) = iter_line.next() {
+        if let Some(digit) = char.to_digit(10) {
+            temp_word.clear();
+            vec.push(digit);
+        } else {
+            temp_word.push(char);
+            for i in 0..ref_numbers.len() {
+                if temp_word.contains(ref_numbers[i]) {
+                    temp_word.clear();
+                    vec.push(i as u32);
+                }
             }
         }
     }
-
-    if output.len() > 1 {
-        output.sort_by(|a, b| a.1.cmp(&b.1));
-    }
-
-    output
-}
-
-fn str_to_digit(str: &str) -> u32 {
-    match str {
-        "one" => 1,
-        "two" => 2,
-        "three" => 3,
-        "four" => 4,
-        "five" => 5,
-        "six" => 6,
-        "seven" => 7,
-        "eight" => 8,
-        "nine" => 9,
-        x => x
-            .parse()
-            .expect("Could not find number. Check vector of numbers in fn numbers_from_line"),
-    }
+    vec
 }

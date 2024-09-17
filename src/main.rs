@@ -9,7 +9,9 @@ fn main() {
         .lines()
         .map(|line| {
             let numbers = numbers_from_line(line);
-            process_line_numbers(numbers)
+            let x = process_line_numbers(numbers);
+            println!("{x}");
+            x
         })
         .collect::<Vec<u32>>();
     let sum = vec_values.iter().sum::<u32>();
