@@ -14,8 +14,14 @@ pub fn numbers_from_line(line: &str) -> Vec<u32> {
             temp_word.push(char);
             for i in 0..ref_numbers.len() {
                 if temp_word.contains(ref_numbers[i]) {
-                    temp_word.clear();
                     vec.push(i as u32);
+                    match ref_numbers[i] {
+                        "one" => temp_word = temp_word.split_once("on").unwrap().1.to_string(),
+                        "two" =>  temp_word = temp_word.split_once("tw").unwrap().1.to_string(), 
+                        "three" => temp_word = temp_word.split_once("thre").unwrap().1.to_string(), 
+                        "nine" => temp_word = temp_word.split_once("nin").unwrap().1.to_string(), 
+                        _ => temp_word.clear(), 
+                    }
                 }
             }
         }
