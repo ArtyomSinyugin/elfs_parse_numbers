@@ -1,9 +1,7 @@
-pub fn process_line_numbers(numbers: Vec<u32>) -> u32 {
-    if numbers.len() > 1 {
-        let first = numbers.first().expect("Could not find first digit") * 10;
-        let last = numbers.last().expect("Could not find last digit");
-        return first + last;
+pub fn process_line_numbers(first_number: Option<u32>, last_number: Option<u32>) -> Option<u32> {
+    if let Some(first_number) = first_number {
+        Some(first_number * 10 + last_number.unwrap())
     } else {
-        return numbers[0] * 10 + numbers[0];
+        None
     }
 }

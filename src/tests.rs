@@ -1,7 +1,8 @@
-#[test]
-fn test_data() {
-    use crate::{numbers_from_line::numbers_from_line, process_line_numbers::process_line_numbers};
+#[cfg(test)]
+use crate::{numbers_from_line::numbers_from_line, process_line_numbers::process_line_numbers};
 
+#[test]
+fn global_test() {
     let test_data: &str = "two1nine
         eightwothree
         abcone2threexyz
@@ -13,8 +14,9 @@ fn test_data() {
     let vec_values = test_data
     .lines()
     .map(|line| {
-        let numbers = numbers_from_line(line);
-        let numbers = process_line_numbers(numbers);
+        let first_number = numbers_from_line(line.chars(), false);
+        let last_number = numbers_from_line(line.chars().rev(), true);
+        let numbers = process_line_numbers(first_number, last_number).expect("No numbers in the line");
         println!("{numbers}");
         numbers
     })
